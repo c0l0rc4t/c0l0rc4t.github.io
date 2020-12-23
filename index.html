@@ -1,3 +1,47 @@
 <html>
 <h1>WRITEUP 1 </h1>
+ <p>Intro:	
+Enumeration
+ 
+We have 2 serivce : ssh and http
+Start with gobuster and find hidden file on http service 
+Gobuster dir -w wordlist -u $IP 
+And we retrieve some usefull resource:
+/secret 
+/uploads
+Inside the secret folder , we have a secretKey, maybe use for ssh (RSA)
+Inside the upload folder, we have something
+-	Dict.lst look like a dictionary
+-	Manifesto : don’t seem to be interesting
+Let take them by copy – paste or wget link
+Maybe we can login to SSH (need change permission for secretkey )
+Chmod 600 secretKey
+Ssh -i secretKey john@$IP(you can find user john by view source code and look the comment)
+Unfortunately, You need a passphare. That ok, you can use john to crack secretKey by disc.lst
+ 
+Let try ssh with passphrae “letmein”:
+ 
+
+Great, hello there
+You get the flag 
+Now , let’s get the root.
+Privilege Escalation
+ 
+ We can see the lxd group, can use this to escalate privileges.
+I search GG and follow it
+On my kali;
+ 
+And start an HTTP server
+Python -m SimpleHTTPServer 8000
+ You can ls file on directory lxd-alpine-builder and have a file tar.gz
+
+On victim,
+ 
+ Go on 
+ 
+
+So good, we have root flags.
+   
+  </p>
+  
 </html>
